@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="RojgarMitraModelStoreContainer" CdmEntityContainer="RojgarMitraEntities">
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="RojgarMitraModel.AspNetUserLogin">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="RojgarMitraModel.AspNetUser">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnables" ColumnName="TwoFactorEnables" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tokens">
+      <EntityTypeMapping TypeName="RojgarMitraModel.Token">
+        <MappingFragment StoreEntitySet="Tokens">
+          <ScalarProperty Name="TokenID" ColumnName="TokenID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+          <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+          <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserEmployementDetails">
+      <EntityTypeMapping TypeName="RojgarMitraModel.UserEmployementDetail">
+        <MappingFragment StoreEntitySet="UserEmployementDetails">
+          <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="CurrentDesignation" ColumnName="CurrentDesignation" />
+          <ScalarProperty Name="CurrentCompany" ColumnName="CurrentCompany" />
+          <ScalarProperty Name="AnualSalaryType" ColumnName="AnualSalaryType" />
+          <ScalarProperty Name="AnnualSalaryInlakhs" ColumnName="AnnualSalaryInlakhs" />
+          <ScalarProperty Name="AnnualSalaryInThousand" ColumnName="AnnualSalaryInThousand" />
+          <ScalarProperty Name="WorkingSinceYear" ColumnName="WorkingSinceYear" />
+          <ScalarProperty Name="WotkingSinceMonth" ColumnName="WotkingSinceMonth" />
+          <ScalarProperty Name="WorkingTo" ColumnName="WorkingTo" />
+          <ScalarProperty Name="CurrentLocationID" ColumnName="CurrentLocationID" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="OutSideIndia" ColumnName="OutSideIndia" />
+          <ScalarProperty Name="OutSideIndiaCountryID" ColumnName="OutSideIndiaCountryID" />
+          <ScalarProperty Name="OutSideIndiaCity" ColumnName="OutSideIndiaCity" />
+          <ScalarProperty Name="NoticePeriod" ColumnName="NoticePeriod" />
+          <ScalarProperty Name="ServeNoticePeriod" ColumnName="ServeNoticePeriod" />
+          <ScalarProperty Name="LastWorkingDay_Year" ColumnName="LastWorkingDay_Year" />
+          <ScalarProperty Name="Last_Working_Month" ColumnName="Last_Working_Month" />
+          <ScalarProperty Name="Last_WorkingDate" ColumnName="Last_WorkingDate" />
+          <ScalarProperty Name="NewOfferedSalaryIn" ColumnName="NewOfferedSalaryIn" />
+          <ScalarProperty Name="NewOfferedSalaryInLakh" ColumnName="NewOfferedSalaryInLakh" />
+          <ScalarProperty Name="NewOfferedSalaryInThousand" ColumnName="NewOfferedSalaryInThousand" />
+          <ScalarProperty Name="OfferedDesignation" ColumnName="OfferedDesignation" />
+          <ScalarProperty Name="NewCompany" ColumnName="NewCompany" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserMasters">
+      <EntityTypeMapping TypeName="RojgarMitraModel.UserMaster">
+        <MappingFragment StoreEntitySet="UserMaster">
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="StdCode" ColumnName="StdCode" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="TotalExYear" ColumnName="TotalExYear" />
+          <ScalarProperty Name="ToalExMonth" ColumnName="ToalExMonth" />
+          <ScalarProperty Name="Resume" ColumnName="Resume" />
+          <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+          <ScalarProperty Name="LandLineNumber1" ColumnName="LandLineNumber1" />
+          <ScalarProperty Name="LandLineNumer2" ColumnName="LandLineNumer2" />
+          <ScalarProperty Name="MobileNumber2" ColumnName="MobileNumber2" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Prefereedocation" ColumnName="Prefereedocation" />
+          <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="HomeTown" ColumnName="HomeTown" />
+          <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+          <ScalarProperty Name="MartialStatus" ColumnName="MartialStatus" />
+          <ScalarProperty Name="KeySkills" ColumnName="KeySkills" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserPreEmployeementDetails">
+      <EntityTypeMapping TypeName="RojgarMitraModel.UserPreEmployeementDetail">
+        <MappingFragment StoreEntitySet="UserPreEmployeementDetails">
+          <ScalarProperty Name="PreEmpID" ColumnName="PreEmpID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Desigation" ColumnName="Desigation" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
+          <ScalarProperty Name="Duration_FromYear" ColumnName="Duration_FromYear" />
+          <ScalarProperty Name="Duration_FromMonth" ColumnName="Duration_FromMonth" />
+          <ScalarProperty Name="Duration_ToYear" ColumnName="Duration_ToYear" />
+          <ScalarProperty Name="Duration_ToMonth" ColumnName="Duration_ToMonth" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_LoginCheck" FunctionName="RojgarMitraModel.Store.Sp_LoginCheck">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RojgarMitraModel.Sp_LoginCheck_Result">
+          <ScalarProperty Name="AuthTocken" ColumnName="AuthTocken" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="CityMasters">
+      <EntityTypeMapping TypeName="RojgarMitraModel.CityMaster">
+        <MappingFragment StoreEntitySet="CityMaster">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountriesMasters">
+      <EntityTypeMapping TypeName="RojgarMitraModel.CountriesMaster">
+        <MappingFragment StoreEntitySet="CountriesMaster">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+          <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StatesMasters">
+      <EntityTypeMapping TypeName="RojgarMitraModel.StatesMaster">
+        <MappingFragment StoreEntitySet="StatesMaster">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Statename" ColumnName="Statename" />
+          <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+          <ScalarProperty Name="StateID" ColumnName="StateID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OtherMasters">
+      <EntityTypeMapping TypeName="RojgarMitraModel.OtherMaster">
+        <MappingFragment StoreEntitySet="OtherMasters">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="MasterType" ColumnName="MasterType" />
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="MasterID" ColumnName="MasterID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="usp_CountryList" FunctionName="RojgarMitraModel.Store.usp_CountryList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RojgarMitraModel.usp_CountryList_Result">
+          <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+          <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_otherMasterList" FunctionName="RojgarMitraModel.Store.usp_otherMasterList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="RojgarMitraModel.usp_otherMasterList_Result">
+          <ScalarProperty Name="MasterId" ColumnName="MasterId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="MasterType" ColumnName="MasterType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="CompanyMasters">
+      <EntityTypeMapping TypeName="RojgarMitraModel.CompanyMaster">
+        <MappingFragment StoreEntitySet="CompanyMaster">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DesigationMasters">
+      <EntityTypeMapping TypeName="RojgarMitraModel.DesigationMaster">
+        <MappingFragment StoreEntitySet="DesigationMaster">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="DesignationName" ColumnName="DesignationName" />
+          <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="University_CollegeMaster">
+      <EntityTypeMapping TypeName="RojgarMitraModel.University_CollegeMaster">
+        <MappingFragment StoreEntitySet="University_CollegeMaster">
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="University_CollegeName" ColumnName="University_CollegeName" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserEducationDetails">
+      <EntityTypeMapping TypeName="RojgarMitraModel.UserEducationDetail">
+        <MappingFragment StoreEntitySet="UserEducationDetails">
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
+          <ScalarProperty Name="CourseType" ColumnName="CourseType" />
+          <ScalarProperty Name="University_College" ColumnName="University_College" />
+          <ScalarProperty Name="Specialization" ColumnName="Specialization" />
+          <ScalarProperty Name="Course" ColumnName="Course" />
+          <ScalarProperty Name="HighestQualification" ColumnName="HighestQualification" />
+          <ScalarProperty Name="ProfessionalExperience" ColumnName="ProfessionalExperience" />
+          <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
