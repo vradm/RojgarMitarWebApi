@@ -12,7 +12,7 @@ using RojgarMitraWebApi.DBManager;
 using System.Net.Http.Headers;
 namespace RojgarMitraWebApi.Controllers
 {
-    [Authorize]
+   
     public class MasterController : ApiController
     {
 
