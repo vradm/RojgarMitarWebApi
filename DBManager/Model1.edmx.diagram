@@ -4,25 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4b2a0bd5ca064897b6eac59fc5c059b4" Name="Diagram1" ZoomLevel="55">
-        <EntityTypeShape EntityType="RojgarMitraModel.AspNetUserLogin" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RojgarMitraModel.AspNetUser" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RojgarMitraModel.Token" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RojgarMitraModel.UserEmployementDetail" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RojgarMitraModel.UserMaster" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RojgarMitraModel.UserPreEmployeementDetail" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
-        <AssociationConnector Association="RojgarMitraModel.FK_UserEmployementDetails_UserMaster" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="RojgarMitraModel.CityMaster" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="RojgarMitraModel.CountriesMaster" Width="1.5" PointX="2.75" PointY="9" />
-        <EntityTypeShape EntityType="RojgarMitraModel.StatesMaster" Width="1.5" PointX="5" PointY="8.875" />
+      <Diagram DiagramId="f5422be642a94a2da59ea647679515af" Name="Diagram1">
+        <EntityTypeShape EntityType="RojgarMitraModel.AspNetUserLogin" Width="1.5" PointX="5.75" PointY="6.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.AspNetUser" Width="1.5" PointX="7.75" PointY="6.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.CityMaster" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.CompanyMaster" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.CountriesMaster" Width="1.5" PointX="5.75" PointY="4" />
+        <EntityTypeShape EntityType="RojgarMitraModel.DesigationMaster" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.OtherMaster" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.StatesMaster" Width="1.5" PointX="8" PointY="3.875" />
+        <EntityTypeShape EntityType="RojgarMitraModel.Token" Width="1.5" PointX="9.75" PointY="9.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.University_CollegeMaster" Width="1.5" PointX="10.75" PointY="3.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.UserEducationDetail" Width="1.5" PointX="3" PointY="5.5" />
+        <EntityTypeShape EntityType="RojgarMitraModel.UserEmployementDetail" Width="1.5" PointX="3" PointY="9.875" />
+        <EntityTypeShape EntityType="RojgarMitraModel.UserMaster" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="RojgarMitraModel.UserPreEmployeementDetail" Width="1.5" PointX="5.75" PointY="11.75" />
+        <EntityTypeShape EntityType="RojgarMitraModel.UserSkillsDetail" Width="1.5" PointX="3" PointY="17.5" />
+        <EntityTypeShape EntityType="RojgarMitraModel.UserWokingHistory" Width="1.5" PointX="3" PointY="1.75" />
         <AssociationConnector Association="RojgarMitraModel.FK_CityMaster_CityMaster" />
         <AssociationConnector Association="RojgarMitraModel.FK_StatesMaster_CountriesMaster" />
-        <EntityTypeShape EntityType="RojgarMitraModel.OtherMaster" Width="1.5" PointX="8.375" PointY="7.75" />
-        <EntityTypeShape EntityType="RojgarMitraModel.CompanyMaster" Width="1.5" PointX="10.375" PointY="0.75" />
-        <EntityTypeShape EntityType="RojgarMitraModel.DesigationMaster" Width="1.5" PointX="10.375" PointY="3.75" />
-        <EntityTypeShape EntityType="RojgarMitraModel.University_CollegeMaster" Width="1.5" PointX="10.375" PointY="6.75" />
-        <EntityTypeShape EntityType="RojgarMitraModel.UserEducationDetail" Width="1.5" PointX="7.375" PointY="10.75" />
         <AssociationConnector Association="RojgarMitraModel.FK_UserEducationDetails_UserMaster" />
+        <AssociationConnector Association="RojgarMitraModel.FK_UserEmployementDetails_UserMaster" />
+        <AssociationConnector Association="RojgarMitraModel.FK_UserSkillsDetails_UserMaster" />
+        <AssociationConnector Association="RojgarMitraModel.FK_UserWokingHistory_UserMaster" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

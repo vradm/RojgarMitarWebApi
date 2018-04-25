@@ -79,10 +79,10 @@ D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\WebGrease.dll
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\EntityFramework.xml
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\EntityFramework.SqlServer.xml
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\Newtonsoft.Json.xml
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\System.Net.Http.Formatting.xml
-D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\System.Web.Helpers.xml
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\System.Web.Http.xml
+D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\Newtonsoft.Json.xml
+D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\System.Web.Helpers.xml
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\System.Web.Http.WebHost.xml
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\System.Web.Mvc.xml
 D:\vk\Projects\RojgarMitra\RojgarMitraWebApi\RojgarMitraWebApi\bin\System.Web.Optimization.xml

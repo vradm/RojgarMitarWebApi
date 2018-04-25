@@ -11,8 +11,9 @@ namespace RojgarMitraWebApi.IRepository
    public interface IAccountRepository
     {
         AccountModel UserLogin(string EmailID, string Password);
-        ResponseModel SavePersonalDetails(UserRegistartionPersonalDetailsModel model);
+        AccountModel SavePersonalDetails(UserRegistartionPersonalDetailsModel model);
         ResponseModel SaveEmploymentDetails(UserRegistrationEmployeMentModel model);
         ResponseModel SaveEducationDetails(UserRegistrationEducationModel model);
+        bool Checkmail(string Email);
     }
 }

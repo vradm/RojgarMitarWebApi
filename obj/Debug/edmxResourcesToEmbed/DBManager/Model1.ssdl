@@ -124,29 +124,29 @@
     <Property Name="UserID" Type="bigint" />
     <Property Name="CurrentDesignation" Type="int" />
     <Property Name="CurrentCompany" Type="int" />
-    <Property Name="AnualSalaryType" Type="nvarchar" MaxLength="1" />
+    <Property Name="AnualSalaryType" Type="varchar" MaxLength="50" />
     <Property Name="AnnualSalaryInlakhs" Type="varchar" MaxLength="10" />
     <Property Name="AnnualSalaryInThousand" Type="int" />
     <Property Name="WorkingSinceYear" Type="int" />
     <Property Name="WotkingSinceMonth" Type="varchar" MaxLength="50" />
     <Property Name="WorkingTo" Type="varchar" MaxLength="50" />
     <Property Name="CurrentLocationID" Type="int" />
-    <Property Name="CityName" Type="nchar" MaxLength="10" />
+    <Property Name="CityName" Type="varchar" MaxLength="50" />
     <Property Name="OutSideIndia" Type="bit" />
     <Property Name="OutSideIndiaCountryID" Type="int" />
-    <Property Name="OutSideIndiaCity" Type="nchar" MaxLength="10" />
+    <Property Name="OutSideIndiaCity" Type="varchar" MaxLength="50" />
     <Property Name="NoticePeriod" Type="int" />
     <Property Name="ServeNoticePeriod" Type="bit" />
     <Property Name="LastWorkingDay_Year" Type="int" />
     <Property Name="Last_Working_Month" Type="int" />
     <Property Name="Last_WorkingDate" Type="int" />
-    <Property Name="NewOfferedSalaryIn" Type="char" MaxLength="1" />
+    <Property Name="NewOfferedSalaryIn" Type="varchar" MaxLength="50" />
     <Property Name="NewOfferedSalaryInLakh" Type="int" />
     <Property Name="NewOfferedSalaryInThousand" Type="int" />
     <Property Name="OfferedDesignation" Type="int" />
     <Property Name="NewCompany" Type="int" />
-    <Property Name="Active" Type="bit" />
-    <Property Name="CreatedDate" Type="date" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="date" Nullable="false" />
     <Property Name="ModifiedDate" Type="date" />
     <Property Name="PassingYear" Type="int" />
   </EntityType>
@@ -162,6 +162,7 @@
     <Property Name="MobileNumber" Type="varchar" MaxLength="20" Nullable="false" />
     <Property Name="TotalExYear" Type="int" />
     <Property Name="ToalExMonth" Type="int" />
+    <Property Name="ResumeTitle" Type="varchar" MaxLength="500" />
     <Property Name="Resume" Type="varchar" MaxLength="500" />
     <Property Name="ProfileImage" Type="varchar" MaxLength="50" />
     <Property Name="Extension" Type="varchar" MaxLength="10" />
@@ -172,10 +173,14 @@
     <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Prefereedocation" Type="int" />
     <Property Name="PermanentAddress" Type="varchar" MaxLength="500" />
-    <Property Name="DateOfBirth" Type="datetime" />
-    <Property Name="Gender" Type="varchar" MaxLength="50" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" />
     <Property Name="HomeTown" Type="varchar" MaxLength="50" />
     <Property Name="PinCode" Type="int" />
+    <Property Name="DobYear" Type="int" />
+    <Property Name="DobMonth" Type="int" />
+    <Property Name="DobDay" Type="int" />
+    <Property Name="MailingAddress" Type="varchar" MaxLength="100" />
+    <Property Name="DiffAbled" Type="varchar" MaxLength="5" />
     <Property Name="MartialStatus" Type="int" />
     <Property Name="KeySkills" Type="varchar" MaxLength="500" />
     <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -197,6 +202,33 @@
     <Property Name="Active" Type="bit" Nullable="false" />
     <Property Name="CreatedDate" Type="datetime" />
     <Property Name="ModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="UserSkillsDetails">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="Skills" Type="varchar" MaxLength="50" />
+    <Property Name="Version" Type="varchar" MaxLength="50" />
+    <Property Name="LastUsedYear" Type="int" />
+    <Property Name="Experience" Type="int" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="createdDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserWokingHistory">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="bigint" Nullable="false" />
+    <Property Name="DesignationId" Type="bigint" />
+    <Property Name="CompanyName" Type="bigint" />
+    <Property Name="WokingSinceYear" Type="int" />
+    <Property Name="workingSinceMonth" Type="int" />
+    <Property Name="WorkingSinceTo" Type="int" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="FK_CityMaster_CityMaster">
     <End Role="CityMaster" Type="Self.CityMaster" Multiplicity="1" />
@@ -246,12 +278,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="Sp_LoginCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="Emaild" Type="varchar" Mode="In" />
-    <Parameter Name="passWord" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="usp_CountryList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="usp_otherMasterList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Association Name="FK_UserSkillsDetails_UserMaster">
+    <End Role="UserMaster" Type="Self.UserMaster" Multiplicity="1" />
+    <End Role="UserSkillsDetails" Type="Self.UserSkillsDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserMaster">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserSkillsDetails">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserWokingHistory_UserMaster">
+    <End Role="UserMaster" Type="Self.UserMaster" Multiplicity="1" />
+    <End Role="UserWokingHistory" Type="Self.UserWokingHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserMaster">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserWokingHistory">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="RojgarMitraModelStoreContainer">
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
@@ -267,6 +317,8 @@
     <EntitySet Name="UserEmployementDetails" EntityType="Self.UserEmployementDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserMaster" EntityType="Self.UserMaster" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserPreEmployeementDetails" EntityType="Self.UserPreEmployeementDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserSkillsDetails" EntityType="Self.UserSkillsDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserWokingHistory" EntityType="Self.UserWokingHistory" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_CityMaster_CityMaster" Association="Self.FK_CityMaster_CityMaster">
       <End Role="CityMaster" EntitySet="CityMaster" />
       <End Role="CityMaster1" EntitySet="CityMaster" />
@@ -282,6 +334,14 @@
     <AssociationSet Name="FK_UserEmployementDetails_UserMaster" Association="Self.FK_UserEmployementDetails_UserMaster">
       <End Role="UserMaster" EntitySet="UserMaster" />
       <End Role="UserEmployementDetails" EntitySet="UserEmployementDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserSkillsDetails_UserMaster" Association="Self.FK_UserSkillsDetails_UserMaster">
+      <End Role="UserMaster" EntitySet="UserMaster" />
+      <End Role="UserSkillsDetails" EntitySet="UserSkillsDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserWokingHistory_UserMaster" Association="Self.FK_UserWokingHistory_UserMaster">
+      <End Role="UserMaster" EntitySet="UserMaster" />
+      <End Role="UserWokingHistory" EntitySet="UserWokingHistory" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

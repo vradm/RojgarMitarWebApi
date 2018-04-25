@@ -12,8 +12,6 @@ namespace RojgarMitraWebApi.DBManager
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core.Objects;
-    using System.Linq;
     
     public partial class RojgarMitraEntities : DbContext
     {
@@ -29,40 +27,19 @@ namespace RojgarMitraWebApi.DBManager
     
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<CityMaster> CityMasters { get; set; }
+        public virtual DbSet<CompanyMaster> CompanyMasters { get; set; }
+        public virtual DbSet<CountriesMaster> CountriesMasters { get; set; }
+        public virtual DbSet<DesigationMaster> DesigationMasters { get; set; }
+        public virtual DbSet<OtherMaster> OtherMasters { get; set; }
+        public virtual DbSet<StatesMaster> StatesMasters { get; set; }
         public virtual DbSet<Token> Tokens { get; set; }
+        public virtual DbSet<University_CollegeMaster> University_CollegeMaster { get; set; }
+        public virtual DbSet<UserEducationDetail> UserEducationDetails { get; set; }
         public virtual DbSet<UserEmployementDetail> UserEmployementDetails { get; set; }
         public virtual DbSet<UserMaster> UserMasters { get; set; }
         public virtual DbSet<UserPreEmployeementDetail> UserPreEmployeementDetails { get; set; }
-        public virtual DbSet<CityMaster> CityMasters { get; set; }
-        public virtual DbSet<CountriesMaster> CountriesMasters { get; set; }
-        public virtual DbSet<StatesMaster> StatesMasters { get; set; }
-        public virtual DbSet<OtherMaster> OtherMasters { get; set; }
-        public virtual DbSet<CompanyMaster> CompanyMasters { get; set; }
-        public virtual DbSet<DesigationMaster> DesigationMasters { get; set; }
-        public virtual DbSet<University_CollegeMaster> University_CollegeMaster { get; set; }
-        public virtual DbSet<UserEducationDetail> UserEducationDetails { get; set; }
-    
-        public virtual ObjectResult<Sp_LoginCheck_Result> Sp_LoginCheck(string emaild, string passWord)
-        {
-            var emaildParameter = emaild != null ?
-                new ObjectParameter("Emaild", emaild) :
-                new ObjectParameter("Emaild", typeof(string));
-    
-            var passWordParameter = passWord != null ?
-                new ObjectParameter("passWord", passWord) :
-                new ObjectParameter("passWord", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Sp_LoginCheck_Result>("Sp_LoginCheck", emaildParameter, passWordParameter);
-        }
-    
-        public virtual ObjectResult<usp_CountryList_Result> usp_CountryList()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_CountryList_Result>("usp_CountryList");
-        }
-    
-        public virtual ObjectResult<usp_otherMasterList_Result> usp_otherMasterList()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_otherMasterList_Result>("usp_otherMasterList");
-        }
+        public virtual DbSet<UserSkillsDetail> UserSkillsDetails { get; set; }
+        public virtual DbSet<UserWokingHistory> UserWokingHistories { get; set; }
     }
 }

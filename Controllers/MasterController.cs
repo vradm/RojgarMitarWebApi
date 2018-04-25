@@ -9,9 +9,10 @@ using RojgarMitraWebApi.IRepository;
 using RojgarMitraWebApi.Repository;
 using RojgarMitraWebApi.BusinessModel;
 using RojgarMitraWebApi.DBManager;
-
+using System.Net.Http.Headers;
 namespace RojgarMitraWebApi.Controllers
 {
+    [Authorize]
     public class MasterController : ApiController
     {
 
@@ -52,9 +53,11 @@ namespace RojgarMitraWebApi.Controllers
         [HttpGet]       
         public IHttpActionResult DesignationList()
         {
+            //return Request.CreateResponse(HttpStatusCode.OK, _masterRepository.ListOfDesigation());
             List<DesignationModel> DesignationModel = new List<DesignationModel>();
             try
             {
+                
                 DesignationModel = _masterRepository.ListOfDesigation().ToList();
                 if (DesignationModel != null)
                 {

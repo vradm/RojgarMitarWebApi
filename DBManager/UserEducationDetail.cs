@@ -15,6 +15,8 @@ namespace RojgarMitraWebApi.DBManager
     public partial class UserEducationDetail
     {
         public long ID { get; set; }
+        public long UserId { get; set; }
+        public string Extension { get; set; }
         public string ProfileImage { get; set; }
         public string ProfessionalExperience { get; set; }
         public Nullable<int> HighestQualification { get; set; }
@@ -25,8 +27,6 @@ namespace RojgarMitraWebApi.DBManager
         public Nullable<int> PassingYear { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime createdDate { get; set; }
-        public long UserId { get; set; }
-        public string Extension { get; set; }
     
         public virtual UserMaster UserMaster { get; set; }
     }

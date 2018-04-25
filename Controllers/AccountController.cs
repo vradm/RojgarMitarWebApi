@@ -11,20 +11,12 @@ using RojgarMitraWebApi.BusinessModel;
 
 namespace RojgarMitraWebApi.Controllers
 {
-    
+
     public class AccountController : ApiController
     {
         
         static readonly IAccountRepository ObjAccountRepository = new AccountRepository(new RojgarMitraEntities());
-        static readonly ITokenRepository _objTokenRepository = new TokenRepository(new RojgarMitraEntities());
-      
-        //public AccountController()
-        //{
-            
-        //    _objTokenRepository = new TokenRepository();
-        //    ObjAccountRepository = new AccountRepository();
-        //}
-        
+        static readonly ITokenRepository _objTokenRepository = new TokenRepository(new RojgarMitraEntities());                  
 
         [HttpGet]
         public HttpResponseMessage Login(string UserName, string Password, bool? rememberMe)
@@ -64,6 +56,12 @@ namespace RojgarMitraWebApi.Controllers
         {
           
             return Json(ObjAccountRepository.SaveEducationDetails(model));
+        }
+        [HttpGet]
+        public IHttpActionResult CheckMail(string email)
+        {
+
+            return Json(ObjAccountRepository.Checkmail(email));
         }
     }
 }

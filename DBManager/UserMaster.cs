@@ -17,8 +17,10 @@ namespace RojgarMitraWebApi.DBManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserMaster()
         {
-            this.UserEmployementDetails = new HashSet<UserEmployementDetail>();
             this.UserEducationDetails = new HashSet<UserEducationDetail>();
+            this.UserEmployementDetails = new HashSet<UserEmployementDetail>();
+            this.UserSkillsDetails = new HashSet<UserSkillsDetail>();
+            this.UserWokingHistories = new HashSet<UserWokingHistory>();
         }
     
         public long UserID { get; set; }
@@ -29,7 +31,10 @@ namespace RojgarMitraWebApi.DBManager
         public string MobileNumber { get; set; }
         public Nullable<int> TotalExYear { get; set; }
         public Nullable<int> ToalExMonth { get; set; }
+        public string ResumeTitle { get; set; }
         public string Resume { get; set; }
+        public string ProfileImage { get; set; }
+        public string Extension { get; set; }
         public string CurrentLocation { get; set; }
         public string LandLineNumber1 { get; set; }
         public string LandLineNumer2 { get; set; }
@@ -37,21 +42,27 @@ namespace RojgarMitraWebApi.DBManager
         public string Role { get; set; }
         public Nullable<int> Prefereedocation { get; set; }
         public string PermanentAddress { get; set; }
-        public Nullable<System.DateTime> DateOfBirth { get; set; }
         public string Gender { get; set; }
         public string HomeTown { get; set; }
         public Nullable<int> PinCode { get; set; }
+        public Nullable<int> DobYear { get; set; }
+        public Nullable<int> DobMonth { get; set; }
+        public Nullable<int> DobDay { get; set; }
+        public string MailingAddress { get; set; }
+        public string DiffAbled { get; set; }
         public Nullable<int> MartialStatus { get; set; }
         public string KeySkills { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public bool Active { get; set; }
-        public string ProfileImage { get; set; }
-        public string Extension { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserEducationDetail> UserEducationDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserEmployementDetail> UserEmployementDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserEducationDetail> UserEducationDetails { get; set; }
+        public virtual ICollection<UserSkillsDetail> UserSkillsDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserWokingHistory> UserWokingHistories { get; set; }
     }
 }

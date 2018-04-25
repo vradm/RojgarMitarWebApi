@@ -7,10 +7,11 @@ namespace RojgarMitraWebApi.BusinessModel
 {
     public class ResponseModel
     {
-        public long? id { get; set; }
-        public string message { get; set; }
-        public object data { get; set; }
-        public bool status { get; set; } = false;
-        public string redirectUrl { get; set; }
+        public long? Id { get; set; }
+        public string Message { get; set; }
+        public object Data { get; set; }
+        public bool Status { get; set; } = false;
+        public string RedirectUrl { get; set; }
+        public string FileName { get; set; }
     }
 }

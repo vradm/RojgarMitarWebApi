@@ -129,29 +129,29 @@
           <Property Name="UserID" Type="bigint" />
           <Property Name="CurrentDesignation" Type="int" />
           <Property Name="CurrentCompany" Type="int" />
-          <Property Name="AnualSalaryType" Type="nvarchar" MaxLength="1" />
+          <Property Name="AnualSalaryType" Type="varchar" MaxLength="50" />
           <Property Name="AnnualSalaryInlakhs" Type="varchar" MaxLength="10" />
           <Property Name="AnnualSalaryInThousand" Type="int" />
           <Property Name="WorkingSinceYear" Type="int" />
           <Property Name="WotkingSinceMonth" Type="varchar" MaxLength="50" />
           <Property Name="WorkingTo" Type="varchar" MaxLength="50" />
           <Property Name="CurrentLocationID" Type="int" />
-          <Property Name="CityName" Type="nchar" MaxLength="10" />
+          <Property Name="CityName" Type="varchar" MaxLength="50" />
           <Property Name="OutSideIndia" Type="bit" />
           <Property Name="OutSideIndiaCountryID" Type="int" />
-          <Property Name="OutSideIndiaCity" Type="nchar" MaxLength="10" />
+          <Property Name="OutSideIndiaCity" Type="varchar" MaxLength="50" />
           <Property Name="NoticePeriod" Type="int" />
           <Property Name="ServeNoticePeriod" Type="bit" />
           <Property Name="LastWorkingDay_Year" Type="int" />
           <Property Name="Last_Working_Month" Type="int" />
           <Property Name="Last_WorkingDate" Type="int" />
-          <Property Name="NewOfferedSalaryIn" Type="char" MaxLength="1" />
+          <Property Name="NewOfferedSalaryIn" Type="varchar" MaxLength="50" />
           <Property Name="NewOfferedSalaryInLakh" Type="int" />
           <Property Name="NewOfferedSalaryInThousand" Type="int" />
           <Property Name="OfferedDesignation" Type="int" />
           <Property Name="NewCompany" Type="int" />
-          <Property Name="Active" Type="bit" />
-          <Property Name="CreatedDate" Type="date" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="date" Nullable="false" />
           <Property Name="ModifiedDate" Type="date" />
           <Property Name="PassingYear" Type="int" />
         </EntityType>
@@ -167,6 +167,7 @@
           <Property Name="MobileNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="TotalExYear" Type="int" />
           <Property Name="ToalExMonth" Type="int" />
+          <Property Name="ResumeTitle" Type="varchar" MaxLength="500" />
           <Property Name="Resume" Type="varchar" MaxLength="500" />
           <Property Name="ProfileImage" Type="varchar" MaxLength="50" />
           <Property Name="Extension" Type="varchar" MaxLength="10" />
@@ -177,10 +178,14 @@
           <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Prefereedocation" Type="int" />
           <Property Name="PermanentAddress" Type="varchar" MaxLength="500" />
-          <Property Name="DateOfBirth" Type="datetime" />
-          <Property Name="Gender" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="10" />
           <Property Name="HomeTown" Type="varchar" MaxLength="50" />
           <Property Name="PinCode" Type="int" />
+          <Property Name="DobYear" Type="int" />
+          <Property Name="DobMonth" Type="int" />
+          <Property Name="DobDay" Type="int" />
+          <Property Name="MailingAddress" Type="varchar" MaxLength="100" />
+          <Property Name="DiffAbled" Type="varchar" MaxLength="5" />
           <Property Name="MartialStatus" Type="int" />
           <Property Name="KeySkills" Type="varchar" MaxLength="500" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -202,6 +207,33 @@
           <Property Name="Active" Type="bit" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserSkillsDetails">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="Skills" Type="varchar" MaxLength="50" />
+          <Property Name="Version" Type="varchar" MaxLength="50" />
+          <Property Name="LastUsedYear" Type="int" />
+          <Property Name="Experience" Type="int" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="createdDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserWokingHistory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="DesignationId" Type="bigint" />
+          <Property Name="CompanyName" Type="bigint" />
+          <Property Name="WokingSinceYear" Type="int" />
+          <Property Name="workingSinceMonth" Type="int" />
+          <Property Name="WorkingSinceTo" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_CityMaster_CityMaster">
           <End Role="CityMaster" Type="Self.CityMaster" Multiplicity="1" />
@@ -251,12 +283,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="Sp_LoginCheck" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Emaild" Type="varchar" Mode="In" />
-          <Parameter Name="passWord" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="usp_CountryList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="usp_otherMasterList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Association Name="FK_UserSkillsDetails_UserMaster">
+          <End Role="UserMaster" Type="Self.UserMaster" Multiplicity="1" />
+          <End Role="UserSkillsDetails" Type="Self.UserSkillsDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMaster">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserSkillsDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserWokingHistory_UserMaster">
+          <End Role="UserMaster" Type="Self.UserMaster" Multiplicity="1" />
+          <End Role="UserWokingHistory" Type="Self.UserWokingHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMaster">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserWokingHistory">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="RojgarMitraModelStoreContainer">
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
@@ -272,6 +322,8 @@
           <EntitySet Name="UserEmployementDetails" EntityType="Self.UserEmployementDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserMaster" EntityType="Self.UserMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserPreEmployeementDetails" EntityType="Self.UserPreEmployeementDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSkillsDetails" EntityType="Self.UserSkillsDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserWokingHistory" EntityType="Self.UserWokingHistory" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CityMaster_CityMaster" Association="Self.FK_CityMaster_CityMaster">
             <End Role="CityMaster" EntitySet="CityMaster" />
             <End Role="CityMaster1" EntitySet="CityMaster" />
@@ -288,11 +340,61 @@
             <End Role="UserMaster" EntitySet="UserMaster" />
             <End Role="UserEmployementDetails" EntitySet="UserEmployementDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserSkillsDetails_UserMaster" Association="Self.FK_UserSkillsDetails_UserMaster">
+            <End Role="UserMaster" EntitySet="UserMaster" />
+            <End Role="UserSkillsDetails" EntitySet="UserSkillsDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserWokingHistory_UserMaster" Association="Self.FK_UserWokingHistory_UserMaster">
+            <End Role="UserMaster" EntitySet="UserMaster" />
+            <End Role="UserWokingHistory" EntitySet="UserWokingHistory" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RojgarMitraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="RojgarMitraEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUserLogins" EntityType="RojgarMitraModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="RojgarMitraModel.AspNetUser" />
+          <EntitySet Name="CityMasters" EntityType="RojgarMitraModel.CityMaster" />
+          <EntitySet Name="CompanyMasters" EntityType="RojgarMitraModel.CompanyMaster" />
+          <EntitySet Name="CountriesMasters" EntityType="RojgarMitraModel.CountriesMaster" />
+          <EntitySet Name="DesigationMasters" EntityType="RojgarMitraModel.DesigationMaster" />
+          <EntitySet Name="OtherMasters" EntityType="RojgarMitraModel.OtherMaster" />
+          <EntitySet Name="StatesMasters" EntityType="RojgarMitraModel.StatesMaster" />
+          <EntitySet Name="Tokens" EntityType="RojgarMitraModel.Token" />
+          <EntitySet Name="University_CollegeMaster" EntityType="RojgarMitraModel.University_CollegeMaster" />
+          <EntitySet Name="UserEducationDetails" EntityType="RojgarMitraModel.UserEducationDetail" />
+          <EntitySet Name="UserEmployementDetails" EntityType="RojgarMitraModel.UserEmployementDetail" />
+          <EntitySet Name="UserMasters" EntityType="RojgarMitraModel.UserMaster" />
+          <EntitySet Name="UserPreEmployeementDetails" EntityType="RojgarMitraModel.UserPreEmployeementDetail" />
+          <EntitySet Name="UserSkillsDetails" EntityType="RojgarMitraModel.UserSkillsDetail" />
+          <EntitySet Name="UserWokingHistories" EntityType="RojgarMitraModel.UserWokingHistory" />
+          <AssociationSet Name="FK_CityMaster_CityMaster" Association="RojgarMitraModel.FK_CityMaster_CityMaster">
+            <End Role="CityMaster" EntitySet="CityMasters" />
+            <End Role="CityMaster1" EntitySet="CityMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StatesMaster_CountriesMaster" Association="RojgarMitraModel.FK_StatesMaster_CountriesMaster">
+            <End Role="CountriesMaster" EntitySet="CountriesMasters" />
+            <End Role="StatesMaster" EntitySet="StatesMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserEducationDetails_UserMaster" Association="RojgarMitraModel.FK_UserEducationDetails_UserMaster">
+            <End Role="UserMaster" EntitySet="UserMasters" />
+            <End Role="UserEducationDetail" EntitySet="UserEducationDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserEmployementDetails_UserMaster" Association="RojgarMitraModel.FK_UserEmployementDetails_UserMaster">
+            <End Role="UserMaster" EntitySet="UserMasters" />
+            <End Role="UserEmployementDetail" EntitySet="UserEmployementDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSkillsDetails_UserMaster" Association="RojgarMitraModel.FK_UserSkillsDetails_UserMaster">
+            <End Role="UserMaster" EntitySet="UserMasters" />
+            <End Role="UserSkillsDetail" EntitySet="UserSkillsDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserWokingHistory_UserMaster" Association="RojgarMitraModel.FK_UserWokingHistory_UserMaster">
+            <End Role="UserMaster" EntitySet="UserMasters" />
+            <End Role="UserWokingHistory" EntitySet="UserWokingHistories" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="AspNetUserLogin">
           <Key>
             <PropertyRef Name="ID" />
@@ -319,15 +421,100 @@
           <Property Name="AccessFailedCount" Type="Int32" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="CityMaster">
+          <Key>
+            <PropertyRef Name="CityID" />
+          </Key>
+          <Property Name="CityID" Type="Int64" Nullable="false" />
+          <Property Name="CityName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="StateID" Type="Int64" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CityMaster1" Relationship="RojgarMitraModel.FK_CityMaster_CityMaster" FromRole="CityMaster" ToRole="CityMaster1" />
+          <NavigationProperty Name="CityMaster2" Relationship="RojgarMitraModel.FK_CityMaster_CityMaster" FromRole="CityMaster1" ToRole="CityMaster" />
+        </EntityType>
+        <EntityType Name="CompanyMaster">
+          <Key>
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="CompanyID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CountriesMaster">
+          <Key>
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="CountryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="StatesMasters" Relationship="RojgarMitraModel.FK_StatesMaster_CountriesMaster" FromRole="CountriesMaster" ToRole="StatesMaster" />
+        </EntityType>
+        <EntityType Name="DesigationMaster">
+          <Key>
+            <PropertyRef Name="DesignationID" />
+          </Key>
+          <Property Name="DesignationID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DesignationName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="OtherMaster">
+          <Key>
+            <PropertyRef Name="MasterID" />
+          </Key>
+          <Property Name="MasterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MasterType" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatesMaster">
+          <Key>
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="StateID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryID" Type="Int64" Nullable="false" />
+          <Property Name="Statename" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CountriesMaster" Relationship="RojgarMitraModel.FK_StatesMaster_CountriesMaster" FromRole="StatesMaster" ToRole="CountriesMaster" />
+        </EntityType>
         <EntityType Name="Token">
           <Key>
             <PropertyRef Name="TokenID" />
           </Key>
           <Property Name="TokenID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int64" Nullable="false" />
-          <Property Name="AuthToken" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AuthToken" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IssuedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ExpiresOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="University_CollegeMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="University_CollegeName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserEducationDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="Extension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProfileImage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ProfessionalExperience" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="HighestQualification" Type="Int32" />
+          <Property Name="Course" Type="Int32" />
+          <Property Name="Specialization" Type="Int32" />
+          <Property Name="University_College" Type="Int64" />
+          <Property Name="CourseType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PassingYear" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserMaster" Relationship="RojgarMitraModel.FK_UserEducationDetails_UserMaster" FromRole="UserEducationDetail" ToRole="UserMaster" />
         </EntityType>
         <EntityType Name="UserEmployementDetail">
           <Key>
@@ -337,32 +524,32 @@
           <Property Name="UserID" Type="Int64" />
           <Property Name="CurrentDesignation" Type="Int32" />
           <Property Name="CurrentCompany" Type="Int32" />
-          <Property Name="AnualSalaryType" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="AnualSalaryType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="AnnualSalaryInlakhs" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="AnnualSalaryInThousand" Type="Int32" />
           <Property Name="WorkingSinceYear" Type="Int32" />
           <Property Name="WotkingSinceMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="WorkingTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CurrentLocationID" Type="Int32" />
-          <Property Name="CityName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CityName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OutSideIndia" Type="Boolean" />
           <Property Name="OutSideIndiaCountryID" Type="Int32" />
-          <Property Name="OutSideIndiaCity" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="OutSideIndiaCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NoticePeriod" Type="Int32" />
           <Property Name="ServeNoticePeriod" Type="Boolean" />
           <Property Name="LastWorkingDay_Year" Type="Int32" />
           <Property Name="Last_Working_Month" Type="Int32" />
           <Property Name="Last_WorkingDate" Type="Int32" />
-          <Property Name="NewOfferedSalaryIn" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="NewOfferedSalaryIn" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NewOfferedSalaryInLakh" Type="Int32" />
           <Property Name="NewOfferedSalaryInThousand" Type="Int32" />
           <Property Name="OfferedDesignation" Type="Int32" />
           <Property Name="NewCompany" Type="Int32" />
-          <Property Name="Active" Type="Boolean" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="UserMaster" Relationship="Self.FK_UserEmployementDetails_UserMaster" FromRole="UserEmployementDetails" ToRole="UserMaster" />
           <Property Name="PassingYear" Type="Int32" />
+          <NavigationProperty Name="UserMaster" Relationship="RojgarMitraModel.FK_UserEmployementDetails_UserMaster" FromRole="UserEmployementDetail" ToRole="UserMaster" />
         </EntityType>
         <EntityType Name="UserMaster">
           <Key>
@@ -370,33 +557,40 @@
           </Key>
           <Property Name="UserID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FullName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="EmailID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailID" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="StdCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="MobileNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TotalExYear" Type="Int32" />
           <Property Name="ToalExMonth" Type="Int32" />
+          <Property Name="ResumeTitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Resume" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ProfileImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="CurrentLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LandLineNumber1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LandLineNumer2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MobileNumber2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Prefereedocation" Type="Int32" />
           <Property Name="PermanentAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
-          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="HomeTown" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PinCode" Type="Int32" />
+          <Property Name="DobYear" Type="Int32" />
+          <Property Name="DobMonth" Type="Int32" />
+          <Property Name="DobDay" Type="Int32" />
+          <Property Name="MailingAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DiffAbled" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="MartialStatus" Type="Int32" />
           <Property Name="KeySkills" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="UserEmployementDetails" Relationship="Self.FK_UserEmployementDetails_UserMaster" FromRole="UserMaster" ToRole="UserEmployementDetails" />
-          <Property Name="ProfileImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="UserEducationDetails" Relationship="RojgarMitraModel.FK_UserEducationDetails_UserMaster" FromRole="UserMaster" ToRole="UserEducationDetail" />
-          <Property Name="Extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserEmployementDetails" Relationship="RojgarMitraModel.FK_UserEmployementDetails_UserMaster" FromRole="UserMaster" ToRole="UserEmployementDetail" />
+          <NavigationProperty Name="UserSkillsDetails" Relationship="RojgarMitraModel.FK_UserSkillsDetails_UserMaster" FromRole="UserMaster" ToRole="UserSkillsDetail" />
+          <NavigationProperty Name="UserWokingHistories" Relationship="RojgarMitraModel.FK_UserWokingHistory_UserMaster" FromRole="UserMaster" ToRole="UserWokingHistory" />
         </EntityType>
         <EntityType Name="UserPreEmployeementDetail">
           <Key>
@@ -414,94 +608,34 @@
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
         </EntityType>
-        <Association Name="FK_UserEmployementDetails_UserMaster">
-          <End Role="UserMaster" Type="Self.UserMaster" Multiplicity="0..1" />
-          <End Role="UserEmployementDetails" Type="Self.UserEmployementDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserMaster">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="UserEmployementDetails">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="RojgarMitraEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
-          <EntitySet Name="Tokens" EntityType="Self.Token" />
-          <EntitySet Name="UserEmployementDetails" EntityType="Self.UserEmployementDetail" />
-          <EntitySet Name="UserMasters" EntityType="Self.UserMaster" />
-          <EntitySet Name="UserPreEmployeementDetails" EntityType="Self.UserPreEmployeementDetail" />
-          <AssociationSet Name="FK_UserEmployementDetails_UserMaster" Association="Self.FK_UserEmployementDetails_UserMaster">
-            <End Role="UserMaster" EntitySet="UserMasters" />
-            <End Role="UserEmployementDetails" EntitySet="UserEmployementDetails" />
-          </AssociationSet>
-          <FunctionImport Name="Sp_LoginCheck" ReturnType="Collection(RojgarMitraModel.Sp_LoginCheck_Result)">
-            <Parameter Name="Emaild" Mode="In" Type="String" />
-            <Parameter Name="passWord" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="CityMasters" EntityType="RojgarMitraModel.CityMaster" />
-          <EntitySet Name="CountriesMasters" EntityType="RojgarMitraModel.CountriesMaster" />
-          <EntitySet Name="StatesMasters" EntityType="RojgarMitraModel.StatesMaster" />
-          <AssociationSet Name="FK_CityMaster_CityMaster" Association="RojgarMitraModel.FK_CityMaster_CityMaster">
-            <End Role="CityMaster" EntitySet="CityMasters" />
-            <End Role="CityMaster1" EntitySet="CityMasters" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StatesMaster_CountriesMaster" Association="RojgarMitraModel.FK_StatesMaster_CountriesMaster">
-            <End Role="CountriesMaster" EntitySet="CountriesMasters" />
-            <End Role="StatesMaster" EntitySet="StatesMasters" />
-          </AssociationSet>
-          <EntitySet Name="OtherMasters" EntityType="RojgarMitraModel.OtherMaster" />
-          <FunctionImport Name="usp_CountryList" ReturnType="Collection(RojgarMitraModel.usp_CountryList_Result)" />
-          <FunctionImport Name="usp_otherMasterList" ReturnType="Collection(RojgarMitraModel.usp_otherMasterList_Result)" />
-          <EntitySet Name="CompanyMasters" EntityType="RojgarMitraModel.CompanyMaster" />
-          <EntitySet Name="DesigationMasters" EntityType="RojgarMitraModel.DesigationMaster" />
-          <EntitySet Name="University_CollegeMaster" EntityType="RojgarMitraModel.University_CollegeMaster" />
-          <EntitySet Name="UserEducationDetails" EntityType="RojgarMitraModel.UserEducationDetail" />
-          <AssociationSet Name="FK_UserEducationDetails_UserMaster" Association="RojgarMitraModel.FK_UserEducationDetails_UserMaster">
-            <End Role="UserMaster" EntitySet="UserMasters" />
-            <End Role="UserEducationDetail" EntitySet="UserEducationDetails" />
-          </AssociationSet>
-        </EntityContainer>
-        <ComplexType Name="Sp_LoginCheck_Result">
-          <Property Type="String" Name="AuthTocken" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="Role" Nullable="false" MaxLength="50" />
-          <Property Type="Int64" Name="UserID" Nullable="false" />
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="EmailID" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="password" Nullable="false" MaxLength="50" />
-        </ComplexType>
-        <EntityType Name="CityMaster">
+        <EntityType Name="UserSkillsDetail">
           <Key>
-            <PropertyRef Name="CityID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="CityID" Type="Int64" Nullable="false" />
-          <Property Name="CityName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="StateID" Type="Int64" Nullable="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CityMaster1" Relationship="RojgarMitraModel.FK_CityMaster_CityMaster" FromRole="CityMaster" ToRole="CityMaster1" />
-          <NavigationProperty Name="CityMaster2" Relationship="RojgarMitraModel.FK_CityMaster_CityMaster" FromRole="CityMaster1" ToRole="CityMaster" />
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="Skills" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Version" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUsedYear" Type="Int32" />
+          <Property Name="Experience" Type="Int32" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserMaster" Relationship="RojgarMitraModel.FK_UserSkillsDetails_UserMaster" FromRole="UserSkillsDetail" ToRole="UserMaster" />
         </EntityType>
-        <EntityType Name="CountriesMaster">
+        <EntityType Name="UserWokingHistory">
           <Key>
-            <PropertyRef Name="CountryID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="CountryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CountryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="DesignationId" Type="Int64" />
+          <Property Name="CompanyName" Type="Int64" />
+          <Property Name="WokingSinceYear" Type="Int32" />
+          <Property Name="workingSinceMonth" Type="Int32" />
+          <Property Name="WorkingSinceTo" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="StatesMasters" Relationship="RojgarMitraModel.FK_StatesMaster_CountriesMaster" FromRole="CountriesMaster" ToRole="StatesMaster" />
-        </EntityType>
-        <EntityType Name="StatesMaster">
-          <Key>
-            <PropertyRef Name="StateID" />
-          </Key>
-          <Property Name="StateID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CountryID" Type="Int64" Nullable="false" />
-          <Property Name="Statename" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CountriesMaster" Relationship="RojgarMitraModel.FK_StatesMaster_CountriesMaster" FromRole="StatesMaster" ToRole="CountriesMaster" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserMaster" Relationship="RojgarMitraModel.FK_UserWokingHistory_UserMaster" FromRole="UserWokingHistory" ToRole="UserMaster" />
         </EntityType>
         <Association Name="FK_CityMaster_CityMaster">
           <End Type="RojgarMitraModel.CityMaster" Role="CityMaster" Multiplicity="1" />
@@ -527,71 +661,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="OtherMaster">
-          <Key>
-            <PropertyRef Name="MasterID" />
-          </Key>
-          <Property Name="MasterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="MasterType" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <ComplexType Name="usp_CountryList_Result">
-          <Property Type="Int64" Name="CountryID" Nullable="false" />
-          <Property Type="String" Name="CountryName" Nullable="false" MaxLength="255" />
-        </ComplexType>
-        <ComplexType Name="usp_otherMasterList_Result">
-          <Property Type="Int32" Name="MasterId" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="Code" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="MasterType" Nullable="false" MaxLength="255" />
-        </ComplexType>
-        <EntityType Name="CompanyMaster">
-          <Key>
-            <PropertyRef Name="CompanyID" />
-          </Key>
-          <Property Name="CompanyID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DesigationMaster">
-          <Key>
-            <PropertyRef Name="DesignationID" />
-          </Key>
-          <Property Name="DesignationID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DesignationName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-        </EntityType>
-        <EntityType Name="University_CollegeMaster">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="University_CollegeName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="UserEducationDetail">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ProfileImage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="ProfessionalExperience" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="HighestQualification" Type="Int32" />
-          <Property Name="Course" Type="Int32" />
-          <Property Name="Specialization" Type="Int32" />
-          <Property Name="University_College" Type="Int64" />
-          <Property Name="CourseType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="PassingYear" Type="Int32" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <Property Name="createdDate" Type="DateTime" Precision="3" Nullable="false" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="UserMaster" Relationship="RojgarMitraModel.FK_UserEducationDetails_UserMaster" FromRole="UserEducationDetail" ToRole="UserMaster" />
-          <Property Name="Extension" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <Association Name="FK_UserEducationDetails_UserMaster">
           <End Type="RojgarMitraModel.UserMaster" Role="UserMaster" Multiplicity="1" />
           <End Type="RojgarMitraModel.UserEducationDetail" Role="UserEducationDetail" Multiplicity="*" />
@@ -600,6 +669,42 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="UserEducationDetail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserEmployementDetails_UserMaster">
+          <End Type="RojgarMitraModel.UserMaster" Role="UserMaster" Multiplicity="0..1" />
+          <End Type="RojgarMitraModel.UserEmployementDetail" Role="UserEmployementDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMaster">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserEmployementDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSkillsDetails_UserMaster">
+          <End Type="RojgarMitraModel.UserMaster" Role="UserMaster" Multiplicity="1" />
+          <End Type="RojgarMitraModel.UserSkillsDetail" Role="UserSkillsDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMaster">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserSkillsDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserWokingHistory_UserMaster">
+          <End Type="RojgarMitraModel.UserMaster" Role="UserMaster" Multiplicity="1" />
+          <End Type="RojgarMitraModel.UserWokingHistory" Role="UserWokingHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserMaster">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserWokingHistory">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -613,140 +718,31 @@
           <EntitySetMapping Name="AspNetUserLogins">
             <EntityTypeMapping TypeName="RojgarMitraModel.AspNetUserLogin">
               <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="RojgarMitraModel.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnables" ColumnName="TwoFactorEnables" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tokens">
-            <EntityTypeMapping TypeName="RojgarMitraModel.Token">
-              <MappingFragment StoreEntitySet="Tokens">
-                <ScalarProperty Name="TokenID" ColumnName="TokenID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
-                <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
-                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserEmployementDetails">
-            <EntityTypeMapping TypeName="RojgarMitraModel.UserEmployementDetail">
-              <MappingFragment StoreEntitySet="UserEmployementDetails">
-                <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnables" ColumnName="TwoFactorEnables" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="CurrentDesignation" ColumnName="CurrentDesignation" />
-                <ScalarProperty Name="CurrentCompany" ColumnName="CurrentCompany" />
-                <ScalarProperty Name="AnualSalaryType" ColumnName="AnualSalaryType" />
-                <ScalarProperty Name="AnnualSalaryInlakhs" ColumnName="AnnualSalaryInlakhs" />
-                <ScalarProperty Name="AnnualSalaryInThousand" ColumnName="AnnualSalaryInThousand" />
-                <ScalarProperty Name="WorkingSinceYear" ColumnName="WorkingSinceYear" />
-                <ScalarProperty Name="WotkingSinceMonth" ColumnName="WotkingSinceMonth" />
-                <ScalarProperty Name="WorkingTo" ColumnName="WorkingTo" />
-                <ScalarProperty Name="CurrentLocationID" ColumnName="CurrentLocationID" />
-                <ScalarProperty Name="CityName" ColumnName="CityName" />
-                <ScalarProperty Name="OutSideIndia" ColumnName="OutSideIndia" />
-                <ScalarProperty Name="OutSideIndiaCountryID" ColumnName="OutSideIndiaCountryID" />
-                <ScalarProperty Name="OutSideIndiaCity" ColumnName="OutSideIndiaCity" />
-                <ScalarProperty Name="NoticePeriod" ColumnName="NoticePeriod" />
-                <ScalarProperty Name="ServeNoticePeriod" ColumnName="ServeNoticePeriod" />
-                <ScalarProperty Name="LastWorkingDay_Year" ColumnName="LastWorkingDay_Year" />
-                <ScalarProperty Name="Last_Working_Month" ColumnName="Last_Working_Month" />
-                <ScalarProperty Name="Last_WorkingDate" ColumnName="Last_WorkingDate" />
-                <ScalarProperty Name="NewOfferedSalaryIn" ColumnName="NewOfferedSalaryIn" />
-                <ScalarProperty Name="NewOfferedSalaryInLakh" ColumnName="NewOfferedSalaryInLakh" />
-                <ScalarProperty Name="NewOfferedSalaryInThousand" ColumnName="NewOfferedSalaryInThousand" />
-                <ScalarProperty Name="OfferedDesignation" ColumnName="OfferedDesignation" />
-                <ScalarProperty Name="NewCompany" ColumnName="NewCompany" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserMasters">
-            <EntityTypeMapping TypeName="RojgarMitraModel.UserMaster">
-              <MappingFragment StoreEntitySet="UserMaster">
-                <ScalarProperty Name="Extension" ColumnName="Extension" />
-                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="StdCode" ColumnName="StdCode" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="TotalExYear" ColumnName="TotalExYear" />
-                <ScalarProperty Name="ToalExMonth" ColumnName="ToalExMonth" />
-                <ScalarProperty Name="Resume" ColumnName="Resume" />
-                <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
-                <ScalarProperty Name="LandLineNumber1" ColumnName="LandLineNumber1" />
-                <ScalarProperty Name="LandLineNumer2" ColumnName="LandLineNumer2" />
-                <ScalarProperty Name="MobileNumber2" ColumnName="MobileNumber2" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="Prefereedocation" ColumnName="Prefereedocation" />
-                <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="HomeTown" ColumnName="HomeTown" />
-                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
-                <ScalarProperty Name="MartialStatus" ColumnName="MartialStatus" />
-                <ScalarProperty Name="KeySkills" ColumnName="KeySkills" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserPreEmployeementDetails">
-            <EntityTypeMapping TypeName="RojgarMitraModel.UserPreEmployeementDetail">
-              <MappingFragment StoreEntitySet="UserPreEmployeementDetails">
-                <ScalarProperty Name="PreEmpID" ColumnName="PreEmpID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Desigation" ColumnName="Desigation" />
-                <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="Duration_FromYear" ColumnName="Duration_FromYear" />
-                <ScalarProperty Name="Duration_FromMonth" ColumnName="Duration_FromMonth" />
-                <ScalarProperty Name="Duration_ToYear" ColumnName="Duration_ToYear" />
-                <ScalarProperty Name="Duration_ToMonth" ColumnName="Duration_ToMonth" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="Sp_LoginCheck" FunctionName="RojgarMitraModel.Store.Sp_LoginCheck">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RojgarMitraModel.Sp_LoginCheck_Result">
-                <ScalarProperty Name="AuthTocken" ColumnName="AuthTocken" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
-                <ScalarProperty Name="password" ColumnName="password" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="CityMasters">
             <EntityTypeMapping TypeName="RojgarMitraModel.CityMaster">
               <MappingFragment StoreEntitySet="CityMaster">
@@ -754,6 +750,15 @@
                 <ScalarProperty Name="StateID" ColumnName="StateID" />
                 <ScalarProperty Name="CityName" ColumnName="CityName" />
                 <ScalarProperty Name="CityID" ColumnName="CityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyMasters">
+            <EntityTypeMapping TypeName="RojgarMitraModel.CompanyMaster">
+              <MappingFragment StoreEntitySet="CompanyMaster">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -766,13 +771,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="StatesMasters">
-            <EntityTypeMapping TypeName="RojgarMitraModel.StatesMaster">
-              <MappingFragment StoreEntitySet="StatesMaster">
+          <EntitySetMapping Name="DesigationMasters">
+            <EntityTypeMapping TypeName="RojgarMitraModel.DesigationMaster">
+              <MappingFragment StoreEntitySet="DesigationMaster">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Statename" ColumnName="Statename" />
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="DesignationName" ColumnName="DesignationName" />
+                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -787,40 +792,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="usp_CountryList" FunctionName="RojgarMitraModel.Store.usp_CountryList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RojgarMitraModel.usp_CountryList_Result">
-                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
-                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_otherMasterList" FunctionName="RojgarMitraModel.Store.usp_otherMasterList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="RojgarMitraModel.usp_otherMasterList_Result">
-                <ScalarProperty Name="MasterId" ColumnName="MasterId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="MasterType" ColumnName="MasterType" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="CompanyMasters">
-            <EntityTypeMapping TypeName="RojgarMitraModel.CompanyMaster">
-              <MappingFragment StoreEntitySet="CompanyMaster">
+          <EntitySetMapping Name="StatesMasters">
+            <EntityTypeMapping TypeName="RojgarMitraModel.StatesMaster">
+              <MappingFragment StoreEntitySet="StatesMaster">
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Statename" ColumnName="Statename" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DesigationMasters">
-            <EntityTypeMapping TypeName="RojgarMitraModel.DesigationMaster">
-              <MappingFragment StoreEntitySet="DesigationMaster">
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="DesignationName" ColumnName="DesignationName" />
-                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+          <EntitySetMapping Name="Tokens">
+            <EntityTypeMapping TypeName="RojgarMitraModel.Token">
+              <MappingFragment StoreEntitySet="Tokens">
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+                <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TokenID" ColumnName="TokenID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -837,8 +826,6 @@
           <EntitySetMapping Name="UserEducationDetails">
             <EntityTypeMapping TypeName="RojgarMitraModel.UserEducationDetail">
               <MappingFragment StoreEntitySet="UserEducationDetails">
-                <ScalarProperty Name="Extension" ColumnName="Extension" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="createdDate" ColumnName="createdDate" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
@@ -849,6 +836,127 @@
                 <ScalarProperty Name="HighestQualification" ColumnName="HighestQualification" />
                 <ScalarProperty Name="ProfessionalExperience" ColumnName="ProfessionalExperience" />
                 <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserEmployementDetails">
+            <EntityTypeMapping TypeName="RojgarMitraModel.UserEmployementDetail">
+              <MappingFragment StoreEntitySet="UserEmployementDetails">
+                <ScalarProperty Name="PassingYear" ColumnName="PassingYear" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="NewCompany" ColumnName="NewCompany" />
+                <ScalarProperty Name="OfferedDesignation" ColumnName="OfferedDesignation" />
+                <ScalarProperty Name="NewOfferedSalaryInThousand" ColumnName="NewOfferedSalaryInThousand" />
+                <ScalarProperty Name="NewOfferedSalaryInLakh" ColumnName="NewOfferedSalaryInLakh" />
+                <ScalarProperty Name="NewOfferedSalaryIn" ColumnName="NewOfferedSalaryIn" />
+                <ScalarProperty Name="Last_WorkingDate" ColumnName="Last_WorkingDate" />
+                <ScalarProperty Name="Last_Working_Month" ColumnName="Last_Working_Month" />
+                <ScalarProperty Name="LastWorkingDay_Year" ColumnName="LastWorkingDay_Year" />
+                <ScalarProperty Name="ServeNoticePeriod" ColumnName="ServeNoticePeriod" />
+                <ScalarProperty Name="NoticePeriod" ColumnName="NoticePeriod" />
+                <ScalarProperty Name="OutSideIndiaCity" ColumnName="OutSideIndiaCity" />
+                <ScalarProperty Name="OutSideIndiaCountryID" ColumnName="OutSideIndiaCountryID" />
+                <ScalarProperty Name="OutSideIndia" ColumnName="OutSideIndia" />
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="CurrentLocationID" ColumnName="CurrentLocationID" />
+                <ScalarProperty Name="WorkingTo" ColumnName="WorkingTo" />
+                <ScalarProperty Name="WotkingSinceMonth" ColumnName="WotkingSinceMonth" />
+                <ScalarProperty Name="WorkingSinceYear" ColumnName="WorkingSinceYear" />
+                <ScalarProperty Name="AnnualSalaryInThousand" ColumnName="AnnualSalaryInThousand" />
+                <ScalarProperty Name="AnnualSalaryInlakhs" ColumnName="AnnualSalaryInlakhs" />
+                <ScalarProperty Name="AnualSalaryType" ColumnName="AnualSalaryType" />
+                <ScalarProperty Name="CurrentCompany" ColumnName="CurrentCompany" />
+                <ScalarProperty Name="CurrentDesignation" ColumnName="CurrentDesignation" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserMasters">
+            <EntityTypeMapping TypeName="RojgarMitraModel.UserMaster">
+              <MappingFragment StoreEntitySet="UserMaster">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="KeySkills" ColumnName="KeySkills" />
+                <ScalarProperty Name="MartialStatus" ColumnName="MartialStatus" />
+                <ScalarProperty Name="DiffAbled" ColumnName="DiffAbled" />
+                <ScalarProperty Name="MailingAddress" ColumnName="MailingAddress" />
+                <ScalarProperty Name="DobDay" ColumnName="DobDay" />
+                <ScalarProperty Name="DobMonth" ColumnName="DobMonth" />
+                <ScalarProperty Name="DobYear" ColumnName="DobYear" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="HomeTown" ColumnName="HomeTown" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="PermanentAddress" ColumnName="PermanentAddress" />
+                <ScalarProperty Name="Prefereedocation" ColumnName="Prefereedocation" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="MobileNumber2" ColumnName="MobileNumber2" />
+                <ScalarProperty Name="LandLineNumer2" ColumnName="LandLineNumer2" />
+                <ScalarProperty Name="LandLineNumber1" ColumnName="LandLineNumber1" />
+                <ScalarProperty Name="CurrentLocation" ColumnName="CurrentLocation" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+                <ScalarProperty Name="Resume" ColumnName="Resume" />
+                <ScalarProperty Name="ResumeTitle" ColumnName="ResumeTitle" />
+                <ScalarProperty Name="ToalExMonth" ColumnName="ToalExMonth" />
+                <ScalarProperty Name="TotalExYear" ColumnName="TotalExYear" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="StdCode" ColumnName="StdCode" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPreEmployeementDetails">
+            <EntityTypeMapping TypeName="RojgarMitraModel.UserPreEmployeementDetail">
+              <MappingFragment StoreEntitySet="UserPreEmployeementDetails">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Duration_ToMonth" ColumnName="Duration_ToMonth" />
+                <ScalarProperty Name="Duration_ToYear" ColumnName="Duration_ToYear" />
+                <ScalarProperty Name="Duration_FromMonth" ColumnName="Duration_FromMonth" />
+                <ScalarProperty Name="Duration_FromYear" ColumnName="Duration_FromYear" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
+                <ScalarProperty Name="Desigation" ColumnName="Desigation" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PreEmpID" ColumnName="PreEmpID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSkillsDetails">
+            <EntityTypeMapping TypeName="RojgarMitraModel.UserSkillsDetail">
+              <MappingFragment StoreEntitySet="UserSkillsDetails">
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="LastUsedYear" ColumnName="LastUsedYear" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="Skills" ColumnName="Skills" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserWokingHistories">
+            <EntityTypeMapping TypeName="RojgarMitraModel.UserWokingHistory">
+              <MappingFragment StoreEntitySet="UserWokingHistory">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="WorkingSinceTo" ColumnName="WorkingSinceTo" />
+                <ScalarProperty Name="workingSinceMonth" ColumnName="workingSinceMonth" />
+                <ScalarProperty Name="WokingSinceYear" ColumnName="WokingSinceYear" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

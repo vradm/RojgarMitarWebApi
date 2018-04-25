@@ -8,6 +8,8 @@ using RojgarMitraWebApi.BusinessModel.UnitOfWork;
 using RojgarMitraWebApi.DBManager;
 using RojgarMitraWebApi.IRepository;
 using System.Transactions;
+using System.Text;
+
 namespace RojgarMitraWebApi.Repository
 {
     public class AccountRepository : IAccountRepository
@@ -21,15 +23,15 @@ namespace RojgarMitraWebApi.Repository
 
         }
 
-
+       
         public AccountModel UserLogin(string EmailID, string Password)
         {
             try
             {
-
+                string DecrPassword = Common.Common.Encryptdata(Password);
                 var objUserRes = SpHelper<AccountModel>.GetListWithRawSql("Sp_LoginCheck @Emaild,@passWord",
                     new SqlParameter { ParameterName = "@Emaild", DbType = DbType.String, Value = EmailID },
-                    new SqlParameter { ParameterName = "@passWord", DbType = DbType.String, Value = Password }).FirstOrDefault();
+                    new SqlParameter { ParameterName = "@passWord", DbType = DbType.String, Value = DecrPassword }).FirstOrDefault();
 
                 return objUserRes;
             }
@@ -60,11 +62,11 @@ namespace RojgarMitraWebApi.Repository
             catch { }
             return null;
         }
-        public ResponseModel SavePersonalDetails(UserRegistartionPersonalDetailsModel model)
+        public AccountModel SavePersonalDetails(UserRegistartionPersonalDetailsModel model)
         {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.data = Guid.NewGuid().ToString() + model.Resume;
-            object obj = new object();obj = responseModel.data;
+            AccountModel responseModel = new AccountModel();
+            responseModel.data = Guid.NewGuid().ToString()+"," + model.Resume;
+            object obj = new object(); obj = responseModel.data;
             try
             {
 
@@ -74,7 +76,7 @@ namespace RojgarMitraWebApi.Repository
                     {
                         FullName = model.FullName,
                         EmailID = model.EmailID,
-                        Password = model.Password,
+                        Password = Common.Common.Encryptdata(model.Password),
                         MobileNumber = model.MobileNumber,
                         TotalExYear = model.TotalExYear,
                         Gender = model.Gender,
@@ -90,8 +92,13 @@ namespace RojgarMitraWebApi.Repository
                     _unitofwork.Save();
                     scope.Complete();
                     responseModel.message = "Succuess";
-                    responseModel.id = objuser.UserID;
+                    responseModel.UserID = objuser.UserID;
+                    responseModel.EmailID = objuser.EmailID;
+                    responseModel.FullName = objuser.FullName;
+                    responseModel.MobileNumber = objuser.MobileNumber;
+                    responseModel.Role = objuser.Role;
                     responseModel.status = true;
+
                     return responseModel;
                 }
 
@@ -133,19 +140,19 @@ namespace RojgarMitraWebApi.Repository
                     _unitofwork.UserEmployementDetailRepository.Insert(objuser);
                     _unitofwork.Save();
                     scope.Complete();
-                    responseModel.id = objuser.UserID;
-                    responseModel.status = true;
-                    responseModel.data = objuser.ID;
-                    responseModel.message = "succuess";
+                    responseModel.Id = objuser.UserID;
+                    responseModel.Status = true;
+                    responseModel.Data = objuser.ID;
+                    responseModel.Message = "succuess";
                     return responseModel;
                 }
 
             }
             catch (Exception ex)
             {
-                responseModel.status = false;
+                responseModel.Status = false;
 
-                responseModel.message = ex.Message;
+                responseModel.Message = ex.Message;
             }
             return responseModel;
 
@@ -153,9 +160,9 @@ namespace RojgarMitraWebApi.Repository
         public ResponseModel SaveEducationDetails(UserRegistrationEducationModel model)
         {
             ResponseModel responseModel = new ResponseModel();
-           
-            responseModel.data = Guid.NewGuid().ToString() + model.ProfileImage;
-            object obj = new object(); obj = responseModel.data;
+
+            responseModel.Data = Guid.NewGuid().ToString() + model.ProfileImage;
+            object obj = new object(); obj = responseModel.Data;
             try
             {
                 using (var scope = new TransactionScope())
@@ -180,19 +187,35 @@ namespace RojgarMitraWebApi.Repository
                     _unitofwork.UserEducationDetailRepository.Insert(objuser);
                     _unitofwork.Save();
                     scope.Complete();
-                    responseModel.id = objuser.UserId;
-                    responseModel.message = "Succuess";
-                    responseModel.status = true;
+                    responseModel.Id = objuser.UserId;
+                    responseModel.Message = "Succuess";
+                    responseModel.Status = true;
                     return responseModel;
                 }
 
             }
             catch (Exception ex)
             {
-                responseModel.status = false;
-                responseModel.message = ex.Message;
+                responseModel.Status = false;
+                responseModel.Message = ex.Message;
             }
             return responseModel;
+        }
+        public bool Checkmail(string email)
+        {
+            ResponseModel responseModel = new ResponseModel();
+            var chkMail = (from e in _Context.UserMasters
+                           where e.EmailID == email
+                           select new { e.EmailID }).FirstOrDefault();
+            if (chkMail != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

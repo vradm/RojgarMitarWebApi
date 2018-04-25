@@ -39,8 +39,8 @@ namespace RojgarMitraWebApi.DBManager
         public Nullable<int> NewOfferedSalaryInThousand { get; set; }
         public Nullable<int> OfferedDesignation { get; set; }
         public Nullable<int> NewCompany { get; set; }
-        public Nullable<bool> Active { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public bool Active { get; set; }
+        public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> PassingYear { get; set; }
     
